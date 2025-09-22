@@ -19,27 +19,18 @@ cd XRPL
 # 1) 依存関係インストール
 npm install
 
-# 2) Devnetウォレット作成（Admin, User, User2 計3個）
-npx tsx src/xrpl/Wallet/createNewWallet.ts
-# 出力されたシード値をプロジェクトルートの.envに保存
+# 2) 環境変数設定
+cp .env.example .env
+# .envファイルを編集して必要な値を設定
 
-# 3) faucetで資産有効化
-npx tsx src/xrpl/Wallet/faucet.ts
-
-# 4) ウォレット情報照会
-npx tsx src/xrpl/Wallet/WalletInfo.ts
-
-# 5) XRP送金
+# 3) XRP送金テスト
 npx tsx src/xrpl/Payment/sendXRP.ts
 
-# 6) IOU送金
-npx tsx src/xrpl/Payment/sendIOU.ts
-
-# 7) TrustLine設定
+# 4) TrustLine設定
 npx tsx src/xrpl/TrustSet/trustSet.ts
 
-# 8) AccountSet（アカウント設定）- 任意
-npx tsx src/xrpl/AccountSet/AccountSet.ts
+# 5) IOU送金テスト
+npx tsx src/xrpl/Payment/sendIOU.ts
 ```
 
 クイックスタート後、機能別実行コマンドと簡単なシナリオ理解はGitHubフォルダ別READMEで、
@@ -48,76 +39,30 @@ npx tsx src/xrpl/AccountSet/AccountSet.ts
 ## 🗂️ 全体ディレクトリ構造
 
 ```
-xrpl/
-├── Wallet/           # ウォレット作成/管理
-│   ├── createNewWallet.ts
-│   ├── faucet.ts
-│   ├── LoadWallet.ts
-│   └── WalletInfo.ts
+src/
+├── config/           # 設定ファイル
+│   ├── env.ts        # 環境変数バリデーション
+│   └── network.ts    # ネットワーク設定
 │
-├── Payment/          # XRP/IOU送金
-│   ├── sendIOU.ts
-│   └── sendXRP.ts
+├── lib/              # ユーティリティ
+│   ├── logger.ts     # ログ出力機能
+│   └── xrplClient.ts # XRPLクライアント作成
 │
-├── TrustSet/         # 信頼線設定
-│   ├── requireAuth.ts
-│   └── trustSet.ts
-│
-├── AccountSet/       # アカウントオプション設定
-│   └── AccountSet.ts
-│
-├── Credential/       # Credential発行/検証
-│   ├── acceptCredential.ts
-│   ├── checkCredential.ts
-│   ├── createCredential.ts
-│   └── deleteCredential.ts
-│
-├── PermissionedDEX/  # 権限ベースDEX
-│   ├── bookOffers.ts
-│   ├── cancelOffer.ts
-│   └── createPermissionedOffer.ts
-│
-├── PermissionedDomains/ # Domainベース権限管理
-│   ├── AcceptedCredentials.ts
-│   ├── createDomain.ts
-│   └── deleteDomain.ts
-│
-├── TokenEscrow/      # エスクロー
-│   ├── escrowCancel.ts
-│   ├── escrowCreateIOU.ts
-│   ├── escrowCreateMPT.ts
-│   └── escrowFinish.ts
-│
-├── MPTokensV1/       # Multi-Party Tokens (v1)
-│   ├── authorizeHolder.ts
-│   ├── createIssuance.ts
-│   ├── destroyIssuance.ts
-│   ├── sendMPT.ts
-│   └── setIssuance.ts
-│
-├── Batch/            # バッチトランザクション
-│   ├── AllOrNothing.ts
-│   ├── Independent.ts
-│   ├── OnlyOne.ts
-│   └── UntilFailure.ts
-│
-└── Server/           # サーバー情報確認
-    └── serverInfo.ts
+└── xrpl/             # XRPL機能実装
+    ├── Payment/      # XRP/IOU送金
+    │   ├── sendIOU.ts
+    │   ├── sendXRP.ts
+    │   └── README.md
+    │
+    └── TrustSet/     # 信頼線設定
+        ├── trustSet.ts
+        └── README.md
 ```
 
 ## 📂 フォルダ別README
 
-- [Wallet](src/xrpl/Wallet/README.md)
-- [Payment](src/xrpl/Payment/README.md)
-- [TrustSet](src/xrpl/TrustSet/README.md)
-- [AccountSet](src/xrpl/AccountSet/README.md)
-- [Credential](src/xrpl/Credential/README.md)
-- [PermissionedDEX](src/xrpl/PermissionedDEX/README.md)
-- [PermissionedDomains](src/xrpl/PermissionedDomains/README.md)
-- [TokenEscrow](src/xrpl/TokenEscrow/README.md)
-- [MPTokensV1](src/xrpl/MPTokensV1/README.md)
-- [Batch](src/xrpl/Batch/README.md)
-- [Server](src/xrpl/Server/README.md)
+- [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
+- [TrustSet](src/xrpl/TrustSet/README.md) - 信頼線設定機能
 
 ## 🔗 XRPL Devnet Explorer
 
