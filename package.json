@@ -1,0 +1,23 @@
+{
+  "name": "xrpl-sample-code",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "format": "biome format --write",
+    "lint": "biome lint --write",
+    "check": "biome check --write",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "xrpl": "^4.4.1",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.2.4",
+    "@types/node": "^24.5.2",
+    "lefthook": "^1.13.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
