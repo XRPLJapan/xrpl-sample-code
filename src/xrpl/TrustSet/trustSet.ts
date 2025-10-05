@@ -2,6 +2,7 @@ import { Client, Wallet, type TrustSet } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';
 import { logExplorerUrl } from '../../lib/logger';
+import { validateTransactionResult } from '../../lib/validateTransaction';
 
 export async function trustSet(): Promise<boolean> {
   // ネットワーク設定
@@ -35,6 +36,10 @@ export async function trustSet(): Promise<boolean> {
 
     // トランザクションを送信して結果を待機
     const result = await client.submitAndWait(signed.tx_blob);
+
+    // トランザクション結果を確認（tesSUCCESS以外はエラーをスロー）
+    validateTransactionResult(result);
+
     console.log('✅ TrustLine設定が完了しました');
 
     // 結果の表示

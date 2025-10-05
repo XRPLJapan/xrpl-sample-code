@@ -7,6 +7,7 @@ import {
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';
 import { logExplorerUrl } from '../../lib/logger';
+import { validateTransactionResult } from '../../lib/validateTransaction';
 
 export async function credentialDelete(): Promise<boolean> {
   // ネットワーク設定
@@ -47,16 +48,8 @@ export async function credentialDelete(): Promise<boolean> {
     // トランザクションを送信して結果を待機
     const result = await client.submitAndWait(signed.tx_blob);
 
-    // トランザクション結果を確認
-    const txResult =
-      typeof result.result.meta === 'object' &&
-      'TransactionResult' in result.result.meta
-        ? result.result.meta.TransactionResult
-        : 'unknown';
-
-    if (txResult !== 'tesSUCCESS') {
-      throw new Error(`Transaction failed: ${txResult}`);
-    }
+    // トランザクション結果を確認（tesSUCCESS以外はエラーをスロー）
+    validateTransactionResult(result);
 
     console.log('✅ Credential削除が完了しました');
 
