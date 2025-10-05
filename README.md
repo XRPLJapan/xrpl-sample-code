@@ -13,7 +13,7 @@ XRPLの主要機能（ウォレット作成/管理、送金、TrustSet、Credent
 
 ```bash
 # 0) リポジトリクローン
-git clone https://github.com/jun637/XRPL.git
+git clone https://github.com/XRPLJapan/xrpl-sample-code.git
 cd XRPL
 
 # 1) 依存関係インストール
@@ -31,6 +31,9 @@ npx tsx src/xrpl/TrustSet/trustSet.ts
 
 # 5) IOU送金テスト
 npx tsx src/xrpl/Payment/sendIOU.ts
+
+# 6) Credential作成
+npx tsx src/xrpl/Credentials/credentialCreate.ts
 ```
 
 クイックスタート後、機能別実行コマンドと簡単なシナリオ理解はGitHubフォルダ別READMEで、
@@ -49,6 +52,12 @@ src/
 │   └── xrplClient.ts # XRPLクライアント作成
 │
 └── xrpl/             # XRPL機能実装
+    ├── Credentials/  # 検証可能な資格情報
+    │   ├── credentialCreate.ts
+    │   ├── credentialAccept.ts
+    │   ├── credentialDelete.ts
+    │   └── README.md
+    │
     ├── Payment/      # XRP/IOU送金
     │   ├── sendIOU.ts
     │   ├── sendXRP.ts
@@ -61,6 +70,7 @@ src/
 
 ## 📂 フォルダ別README
 
+- [Credentials](src/xrpl/Credentials/README.md) - 検証可能な資格情報管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
 - [TrustSet](src/xrpl/TrustSet/README.md) - 信頼線設定機能
 
