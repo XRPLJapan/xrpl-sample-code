@@ -2,7 +2,7 @@ import {
   Client,
   Wallet,
   convertStringToHex,
-  isoTimeToRippleTime,
+  unixTimeToRippleTime,
   type CredentialCreate,
 } from 'xrpl';
 import { env } from '../../config/env';
@@ -22,10 +22,8 @@ export async function credentialCreate(): Promise<boolean> {
     // XRPLネットワークに接続
     await client.connect();
 
-    // 有効期限を1年後に設定する
-    const oneYearFromNow = new Date();
-    oneYearFromNow.setFullYear(oneYearFromNow.getFullYear() + 1);
-    const expirationTime = isoTimeToRippleTime(oneYearFromNow.toISOString());
+    // 有効期限を1年後に設定（ミリ秒単位）
+    const oneYearLaterUnix = Date.now() + 365 * 24 * 60 * 60 * 1000;
 
     // CredentialCreateトランザクションの準備
     const tx: CredentialCreate = {
@@ -33,7 +31,7 @@ export async function credentialCreate(): Promise<boolean> {
       Account: issuer.address,
       Subject: user.address,
       CredentialType: convertStringToHex('VerifiedAccount'), // 資格情報タイプ
-      Expiration: expirationTime, // 有効期限
+      Expiration: unixTimeToRippleTime(oneYearLaterUnix), // 有効期限（unixTimeToRippleTimeでRippleエポックタイムに変換）
     };
 
     // トランザクションの自動入力（手数料、シーケンス番号など）
