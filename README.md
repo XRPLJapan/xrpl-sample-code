@@ -13,7 +13,7 @@ XRPLの主要機能（ウォレット作成/管理、送金、TrustSet、Credent
 
 ```bash
 # 0) リポジトリクローン
-git clone https://github.com/jun637/XRPL.git
+git clone https://github.com/XRPLJapan/xrpl-sample-code.git
 cd XRPL
 
 # 1) 依存関係インストール
