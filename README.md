@@ -1,6 +1,6 @@
 # XRPL サンプルコード集
 
-XRPLの主要機能（ウォレット作成/管理、送金、TrustSet、Credential等）をテストできるシナリオベースのサンプルコード集です。
+XRPLの主要機能（ウォレット作成/管理、送金、TrustSet、Credential、NFT等）をテストできるシナリオベースのサンプルコード集です。
 
 ## 📑 目次
 - [🚀 クイックスタート](#-クイックスタート)
@@ -34,6 +34,9 @@ npx tsx src/xrpl/Payment/sendIOU.ts
 
 # 6) Credential作成
 npx tsx src/xrpl/Credentials/credentialCreate.ts
+
+# 7) NFT発行
+npx tsx src/xrpl/NFToken/nftokenMint.ts
 ```
 
 クイックスタート後、機能別実行コマンドと簡単なシナリオ理解はGitHubフォルダ別READMEで、
@@ -58,6 +61,16 @@ src/
     │   ├── credentialDelete.ts
     │   └── README.md
     │
+    ├── NFToken/      # NFT管理
+    │   ├── nftokenMint.ts
+    │   ├── nftokenMintOffer.ts
+    │   ├── nftokenBurn.ts
+    │   ├── nftokenCreateOffer.ts
+    │   ├── nftokenAcceptOffer.ts
+    │   ├── nftokenCancelOffer.ts
+    │   ├── nftokenDynamic.ts
+    │   └── README.md
+    │
     ├── Payment/      # XRP/IOU送金
     │   ├── sendIOU.ts
     │   ├── sendXRP.ts
@@ -71,6 +84,7 @@ src/
 ## 📂 フォルダ別README
 
 - [Credentials](src/xrpl/Credentials/README.md) - 検証可能な資格情報管理機能
+- [NFToken](src/xrpl/NFToken/README.md) - NFT発行・管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
 - [TrustSet](src/xrpl/TrustSet/README.md) - 信頼線設定機能
 

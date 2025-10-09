@@ -1,9 +1,9 @@
 import {
   Client,
-  Wallet,
+  type CredentialCreate,
   convertStringToHex,
   unixTimeToRippleTime,
-  type CredentialCreate,
+  Wallet,
 } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';

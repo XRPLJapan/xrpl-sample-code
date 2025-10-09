@@ -1,4 +1,4 @@
-import { Client, Wallet, type Payment, xrpToDrops } from 'xrpl';
+import { Client, type Payment, Wallet, xrpToDrops } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';
 import { logExplorerUrl } from '../../lib/logger';

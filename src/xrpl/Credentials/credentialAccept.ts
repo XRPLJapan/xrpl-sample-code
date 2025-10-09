@@ -1,8 +1,8 @@
 import {
   Client,
-  Wallet,
-  convertStringToHex,
   type CredentialAccept,
+  convertStringToHex,
+  Wallet,
 } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';

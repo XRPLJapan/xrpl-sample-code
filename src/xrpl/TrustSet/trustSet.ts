@@ -1,4 +1,4 @@
-import { Client, Wallet, type TrustSet } from 'xrpl';
+import { Client, type TrustSet, Wallet } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';
 import { logExplorerUrl } from '../../lib/logger';
