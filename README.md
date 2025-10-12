@@ -37,6 +37,9 @@ npx tsx src/xrpl/Credentials/credentialCreate.ts
 
 # 7) NFT発行
 npx tsx src/xrpl/NFToken/nftokenMint.ts
+
+# 8) Batchトランザクション（複数トランザクションを一括実行）
+npx tsx src/xrpl/Batch/batchAllOrNothing.ts
 ```
 
 クイックスタート後、機能別実行コマンドと簡単なシナリオ理解はGitHubフォルダ別READMEで、
@@ -55,6 +58,14 @@ src/
 │   └── xrplClient.ts # XRPLクライアント作成
 │
 └── xrpl/             # XRPL機能実装
+    ├── Batch/        # バッチトランザクション
+    │   ├── batchAllOrNothing.ts
+    │   ├── batchOnlyOne.ts
+    │   ├── batchUntilFailure.ts
+    │   ├── batchIndependent.ts
+    │   ├── batchNFTMintAndBurn.ts
+    │   └── README.md
+    │
     ├── Credentials/  # 検証可能な資格情報
     │   ├── credentialCreate.ts
     │   ├── credentialAccept.ts
@@ -83,10 +94,57 @@ src/
 
 ## 📂 フォルダ別README
 
+- [Batch](src/xrpl/Batch/README.md) - バッチトランザクション（複数トランザクションの一括実行）
 - [Credentials](src/xrpl/Credentials/README.md) - 検証可能な資格情報管理機能
 - [NFToken](src/xrpl/NFToken/README.md) - NFT発行・管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
 - [TrustSet](src/xrpl/TrustSet/README.md) - 信頼線設定機能
+
+## 🔍 Batchトランザクション結果の確認
+
+Batchトランザクションは外側のトランザクション自体は常に `tesSUCCESS` を返します。内部トランザクションが失敗した場合でも、Batchトランザクション自体は成功として記録されます。
+
+### 内部トランザクションの成功/失敗を確認する方法
+
+各内部トランザクションの `meta.TransactionResult` を個別に確認します：
+
+```typescript
+import { hashes } from 'xrpl';
+import { getBatchTxStatus } from './lib/getBatchTxStatus';
+
+// 1. Batch トランザクションを送信
+const result = await client.submitAndWait(signed.tx_blob);
+
+// 2. レジャーからBatchトランザクションの詳細を取得
+const batchTxData = await client.request({
+  command: 'tx',
+  transaction: result.result.hash,
+});
+
+// 3. tx_json.RawTransactions から内部トランザクションを取得してハッシュを計算
+const rawTransactions = batchTxData.result.tx_json.RawTransactions;
+const innerTxHashes = rawTransactions.map((rawTx, index) => {
+  const txHash = hashes.hashSignedTx(rawTx.RawTransaction);
+  return { hash: txHash, index: index + 1 };
+});
+
+// 4. 各内部トランザクションの結果を個別に取得
+const innerTxStatuses = await getBatchTxStatus(client, innerTxHashes);
+
+// 5. 失敗時の処理
+const failedTxs = innerTxStatuses.filter(tx => !tx.successful);
+if (failedTxs.length > 0) {
+  // リトライロジックや通知処理
+}
+```
+
+**ポイント:**
+- Batchトランザクション送信後、レジャーから `tx_json.RawTransactions` を取得
+- レジャーから取得した RawTransaction（Sequence等が含まれる）からハッシュを計算
+- 計算したハッシュで各内部トランザクションを個別に確認
+- `tesSUCCESS` 以外はすべて失敗として扱う
+
+詳細は [Batch README](src/xrpl/Batch/README.md) を参照してください。
 
 ## 🔗 XRPL Devnet Explorer
 
