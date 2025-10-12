@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "dotenv": "^17.2.2",
-    "xrpl": "^4.4.1",
+    "xrpl": "^4.4.2",
     "zod": "^4.1.11"
   },
   "devDependencies": {
