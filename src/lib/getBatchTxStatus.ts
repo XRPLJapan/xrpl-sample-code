@@ -48,7 +48,7 @@ export async function getBatchTxStatus(
           successful: false,
           status: 'unknown',
         };
-      } catch (error) {
+      } catch (_error) {
         return {
           hash: tx.hash,
           index: tx.index,

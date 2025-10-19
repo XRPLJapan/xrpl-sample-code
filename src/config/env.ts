@@ -10,6 +10,9 @@ const envSchema = z.object({
   IOU_CURRENCY: z.string().min(1, {
     message: 'IOU_CURRENCYが不正です',
   }),
+  MPT_ISSUANCE_ID: z.string().min(1, {
+    message: 'MPT_ISSUANCE_IDが不正です',
+  }),
   ISUEER_SEED: z.string().min(1, {
     message: 'ISUEER_SEEDが不正です',
   }),
