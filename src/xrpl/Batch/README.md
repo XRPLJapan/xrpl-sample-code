@@ -142,12 +142,11 @@ Batchトランザクションの手数料は以下のように計算されます
 
 ## 🔗 参考リンク
 
-- [XRPL Batch Transactions - Concepts](https://xrpl.org/docs/concepts/transactions/batch-transactions)
-- [XRPL Batch Transaction Type](https://xrpl.org/docs/references/protocol/transactions/types/batch)
-- [XRPL Dev Portal](https://xrpl.org/)
+- [XRPL Batch Transactions - Concepts](https://xrpl.org/ja/docs/concepts/transactions/batch-transactions)
+- [XRPL Batch Transaction Type](https://xrpl.org/ja/docs/references/protocol/transactions/types/batch)
 
 ## ⚠️ Amendment要件
 
 Batch トランザクションを使用するには、XRPLネットワークで`Batch` Amendmentが有効になっている必要があります。
-2025/10/13 現在、`Batch` AmendmentはMainnet/Testnetでは有効になっていません。
+2025/10/20 現在、`Batch` AmendmentはMainnet/Testnetでは有効になっていません。
 
