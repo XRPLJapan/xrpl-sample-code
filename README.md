@@ -35,10 +35,13 @@ npx tsx src/xrpl/Payment/sendIOU.ts
 # 6) Credential作成
 npx tsx src/xrpl/Credentials/credentialCreate.ts
 
-# 7) NFT発行
+# 7) MPToken発行
+npx tsx src/xrpl/MPTokens/mptokenIssuanceCreate.ts
+
+# 8) NFT発行
 npx tsx src/xrpl/NFToken/nftokenMint.ts
 
-# 8) Batchトランザクション（複数トランザクションを一括実行）
+# 9) Batchトランザクション（複数トランザクションを一括実行）
 npx tsx src/xrpl/Batch/batchAllOrNothing.ts
 ```
 
@@ -72,6 +75,14 @@ src/
     │   ├── credentialDelete.ts
     │   └── README.md
     │
+    ├── MPTokens/     # Multi-Purpose Tokens
+    │   ├── mptokenIssuanceCreate.ts
+    │   ├── mptokenAuthorize.ts
+    │   ├── mptokenPayment.ts
+    │   ├── mptokenClawback.ts
+    │   ├── mptokenIssuanceDestroy.ts
+    │   └── README.md
+    │
     ├── NFToken/      # NFT管理
     │   ├── nftokenMint.ts
     │   ├── nftokenMintOffer.ts
@@ -96,6 +107,7 @@ src/
 
 - [Batch](src/xrpl/Batch/README.md) - バッチトランザクション（複数トランザクションの一括実行）
 - [Credentials](src/xrpl/Credentials/README.md) - 検証可能な資格情報管理機能
+- [MPTokens](src/xrpl/MPTokens/README.md) - Multi-Purpose Tokens（MPトークン）発行・管理機能
 - [NFToken](src/xrpl/NFToken/README.md) - NFT発行・管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
 - [TrustSet](src/xrpl/TrustSet/README.md) - 信頼線設定機能
