@@ -20,6 +20,11 @@ export async function permissionedDomainDelete(): Promise<boolean> {
     // 注意: このスクリプトを実行する前に、permissionedDomainSet.tsを実行してDomainIDを取得してください
     const domainId = ''; // 例: 10A3C32C088698C9A42475CB1869940735F4FFAB0753C5065E4270A2328F672A
 
+    if (!domainId) {
+      console.error('❌ DomainIDが設定されていません');
+      return false;
+    }
+
     // PermissionedDomainDeleteトランザクションの準備
     const tx: PermissionedDomainDelete = {
       TransactionType: 'PermissionedDomainDelete',
