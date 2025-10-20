@@ -85,6 +85,11 @@ src/
     │   ├── sendXRP.ts
     │   └── README.md
     │
+    ├── PermissionedDomains/  # 許可型ドメイン
+    │   ├── permissionedDomainSet.ts
+    │   ├── permissionedDomainDelete.ts
+    │   └── README.md
+    │
     └── TrustSet/     # 信頼線設定
         ├── trustSet.ts
         └── README.md
@@ -97,6 +102,7 @@ src/
 - [MPTokens](src/xrpl/MPTokens/README.md) - Multi-Purpose Tokens（MPT）発行・管理機能
 - [NFToken](src/xrpl/NFToken/README.md) - NFT発行・管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
+- [PermissionedDomains](src/xrpl/PermissionedDomains/README.md) - 許可されたドメイン管理機能
 - [TrustSet](src/xrpl/TrustSet/README.md) - トラストライン設定機能
 
 ## 🔗 XRPL Devnet Explorer
