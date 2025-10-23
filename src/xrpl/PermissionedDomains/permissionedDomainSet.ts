@@ -35,7 +35,7 @@ export async function permissionedDomainSet(): Promise<boolean> {
         {
           Credential: {
             Issuer: issuer.address,
-            CredentialType: convertStringToHex('VerifiedAccount3'), // HEX形式
+            CredentialType: convertStringToHex('VerifiedAccount'), // HEX形式
           },
         },
       ],

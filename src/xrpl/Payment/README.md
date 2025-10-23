@@ -17,18 +17,27 @@ npx tsx src/xrpl/Payment/sendXRP.ts
 ```
 AdminアカウントがUserアカウントにXRPを送金（Amountはdrops単位の文字列、例: "1000" = 0.001 XRP）
 
-### 2. IOU送金
+### 2. IOU送金（Userへ）
 ```bash
 npx tsx src/xrpl/Payment/sendIOU.ts
 ```
 Admin（発行者）アカウントがUserアカウントにIOUを送金
 Amountは`{ currency, issuer, value }`形式で、Userは該当IOUのTrustLineを必ず保有している必要があります
 
+### 3. IOU送金（Outsiderへ）
+```bash
+npx tsx src/xrpl/Payment/sendIOUOutsider.ts
+```
+Admin（発行者）アカウントがドメインメンバーではないアカウント（Outsider）にIOUを送金
+Permissioned DEXの挙動確認用に、ドメインメンバーではないアカウントへIOUを送金します
+Outsiderは該当IOUのTrustLineを必ず保有している必要があります（`trustSetOutsider.ts`を先に実行）
+
 ## ✅ 予想される結果
 
 **成功時:**
 - `sendXRP.ts`実行 → Userウォレットに指定した数量のXRPが到着
 - `sendIOU.ts`実行 → Userウォレットに指定したIOUが到着、ExplorerでtesSUCCESS確認可能
+- `sendIOUOutsider.ts`実行 → ドメインメンバーではないアカウント（Outsider）ウォレットに指定したIOUが到着
 
 **失敗時:**
 - UserがIOU信頼線を保有していない場合 → `tecNO_LINE` / `tecNO_AUTH`エラー

@@ -12,16 +12,25 @@ IOU受取の前提条件となる信頼線を設定できます。
 
 ## 🎯 シナリオ実行コマンドと説明
 
-### 1. TrustLine設定
+### 1. TrustLine設定（Userアカウント）
 ```bash
 npx tsx src/xrpl/TrustSet/trustSet.ts
 ```
 Userアカウントが指定されたIOUのTrustLineを設定（信頼限度額: 1,000,000）
 
+### 2. TrustLine設定（Outsiderアカウント）
+```bash
+npx tsx src/xrpl/TrustSet/trustSetOutsider.ts
+```
+ドメインメンバーではないアカウント（Outsider）が指定されたIOUのTrustLineを設定（信頼限度額: 1,000,000）
+Permissioned DEXの挙動確認用に、ドメインメンバーではないアカウントでもTrustLineを設定できます。
+OUTSIDER_SEEDを.envファイルに設定してから実行してください。
+
 ## ✅ 予想される結果
 
 **成功時:**
 - `trustSet.ts`実行 → UserウォレットにTrustLineが設定される
+- `trustSetOutsider.ts`実行 → ドメインメンバーではないアカウントのウォレットにTrustLineが設定される
 - ExplorerでtesSUCCESS確認可能
 - その後、該当IOUの受取が可能になる
 

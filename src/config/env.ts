@@ -10,15 +10,24 @@ const envSchema = z.object({
   IOU_CURRENCY: z.string().min(1, {
     message: 'IOU_CURRENCYが不正です',
   }),
-  MPT_ISSUANCE_ID: z.string().min(1, {
-    message: 'MPT_ISSUANCE_IDが不正です',
-  }),
+  MPT_ISSUANCE_ID: z
+    .string()
+    .optional()
+    .transform((val) => (val === '' ? undefined : val)),
+  DOMAIN_ID: z
+    .string()
+    .optional()
+    .transform((val) => (val === '' ? undefined : val)),
   ISUEER_SEED: z.string().min(1, {
     message: 'ISUEER_SEEDが不正です',
   }),
   USER_SEED: z.string().min(1, {
     message: 'USER_SEEDが不正です',
   }),
+  OUTSIDER_SEED: z
+    .string()
+    .optional()
+    .transform((val) => (val === '' ? undefined : val)),
 });
 
 export const env = envSchema.parse(process.env);
