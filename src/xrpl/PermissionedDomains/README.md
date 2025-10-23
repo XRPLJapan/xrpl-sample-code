@@ -58,7 +58,7 @@ npx tsx src/xrpl/PermissionedDomains/permissionedDomainDelete.ts
 - 指定されたDomain IDのドメインを削除
 - 準備金がアカウントに返却される
 
-**重要:** `permissionedDomainDelete.ts`を実行する前に、`permissionedDomainSet.ts`で取得したDomain IDをコード内の`YOUR_DOMAIN_ID_HERE`に置き換えてください。
+**重要:** `permissionedDomainDelete.ts`を実行する前に、`permissionedDomainSet.ts`で取得したDomain IDを`.env`ファイルの`DOMAIN_ID`に設定してください。
 
 ## 🔄 実行順序
 

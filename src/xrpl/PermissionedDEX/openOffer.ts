@@ -1,41 +1,34 @@
-import { Client, type PermissionedDomainDelete, Wallet } from 'xrpl';
+import { Client, xrpToDrops, type OfferCreate, Wallet } from 'xrpl';
 import { env } from '../../config/env';
 import { getNetworkUrl } from '../../config/network';
 import { logExplorerUrl } from '../../lib/logger';
 import { validateTransactionResult } from '../../lib/validateTransaction';
 
-export async function permissionedDomainDelete(): Promise<boolean> {
+export async function openOffer(): Promise<boolean> {
   // ネットワーク設定
   const network = getNetworkUrl();
   const client = new Client(network.ws);
 
   try {
     // ウォレット作成
+    const issuer = Wallet.fromSeed(env.ISUEER_SEED);
     const user = Wallet.fromSeed(env.USER_SEED);
 
     // XRPLネットワークに接続
     await client.connect();
 
-    // DomainIDを環境変数から取得
-    // 注意: このスクリプトを実行する前に、permissionedDomainSet.tsを実行してDomainIDを取得し、
-    // .envファイルのDOMAIN_IDに設定してください
-    if (!env.DOMAIN_ID) {
-      console.error(
-        '❌ DOMAIN_IDが設定されていません。.envファイルにDOMAIN_IDを設定してください。',
-      );
-      console.error(
-        '💡 ヒント: permissionedDomainSet.tsを実行してDomain IDを取得してください。',
-      );
-      return false;
-    }
-
-    const domainId = env.DOMAIN_ID;
-
-    // PermissionedDomainDeleteトランザクションの準備
-    const tx: PermissionedDomainDelete = {
-      TransactionType: 'PermissionedDomainDelete',
+    // オープンオファーの準備
+    // Tips: オープンオファーは従来のDEXと同じで、誰でもアクセス可能です。
+    // DomainIDを指定せず、tfHybridフラグも設定しません。
+    const tx: OfferCreate = {
+      TransactionType: 'OfferCreate',
       Account: user.address,
-      DomainID: domainId,
+      TakerGets: {
+        currency: env.IOU_CURRENCY,
+        issuer: issuer.address,
+        value: '1', // 1 IOU Currency
+      },
+      TakerPays: xrpToDrops('1'), // 1 XRP
     };
 
     // トランザクションの自動入力（手数料、シーケンス番号など）
@@ -50,9 +43,10 @@ export async function permissionedDomainDelete(): Promise<boolean> {
     // トランザクション結果を確認（tesSUCCESS以外はエラーをスロー）
     validateTransactionResult(result);
 
-    console.log('✅ Permissioned Domain削除が完了しました');
+    console.log('✅ オープンオファーの作成が完了しました');
 
     // 結果の表示
+    console.log('\n📊 トランザクション結果:');
     console.log(result);
 
     // エクスプローラーで確認できるURLを表示
@@ -64,13 +58,17 @@ export async function permissionedDomainDelete(): Promise<boolean> {
 
     // よくあるエラーメッセージの説明
     if (error instanceof Error) {
-      if (error.message.includes('tecNO_ENTRY')) {
+      if (error.message.includes('tecUNFUNDED_OFFER')) {
         console.error(
-          '💡 ヒント: DomainIDフィールドで指定されたPermissioned Domainがレジャー上に存在しません',
+          '💡 ヒント: オファーを実行するための残高が不足しています',
         );
-      } else if (error.message.includes('temDISABLED')) {
+      } else if (error.message.includes('tecNO_LINE')) {
         console.error(
-          '💡 ヒント: PermissionedDomains amendmentが有効になっていません',
+          '💡 ヒント: 通貨のトラストラインが存在しません。TrustSetトランザクションを先に実行してください',
+        );
+      } else if (error.message.includes('tecINSUFF_RESERVE_OFFER')) {
+        console.error(
+          '💡 ヒント: オファーを作成するための準備金が不足しています',
         );
       }
     }
@@ -84,7 +82,7 @@ export async function permissionedDomainDelete(): Promise<boolean> {
 
 // スクリプトが直接実行された場合の処理
 if (import.meta.url === `file://${process.argv[1]}`) {
-  permissionedDomainDelete().then((success) => {
+  openOffer().then((success) => {
     if (!success) {
       process.exit(1);
     }
