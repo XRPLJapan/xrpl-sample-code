@@ -89,10 +89,25 @@ src/
     │   ├── batchNFTMintAndBurn.ts
     │   └── README.md
     │
+    ├── AccountSet/   # アカウント設定
+    │   ├── enableTrustLineLocking.ts
+    │   └── README.md
+    │
     ├── Credentials/  # 検証可能な資格情報
     │   ├── credentialCreate.ts
     │   ├── credentialAccept.ts
     │   ├── credentialDelete.ts
+    │   └── README.md
+    │
+    ├── Escrow/       # エスクロー（XRP・トークン）
+    │   ├── escrowCreate.ts
+    │   ├── escrowFinish.ts
+    │   ├── escrowCancel.ts
+    │   ├── conditionalEscrowCreate.ts
+    │   ├── conditionalEscrowFinish.ts
+    │   ├── tokenEscrowCreate.ts
+    │   ├── tokenEscrowFinish.ts
+    │   ├── tokenEscrowCancel.ts
     │   └── README.md
     │
     ├── MPTokens/     # Multi-Purpose Tokens
@@ -139,8 +154,10 @@ src/
 
 ## 📂 フォルダ別README
 
+- [AccountSet](src/xrpl/AccountSet/README.md) - アカウント設定機能（フラグ管理）
 - [Batch](src/xrpl/Batch/README.md) - バッチトランザクション（複数トランザクションの一括実行）
 - [Credentials](src/xrpl/Credentials/README.md) - 検証可能な資格情報管理機能
+- [Escrow](src/xrpl/Escrow/README.md) - エスクロー機能（XRP・トークン条件付き支払い）
 - [MPTokens](src/xrpl/MPTokens/README.md) - Multi-Purpose Tokens（MPT）発行・管理機能
 - [NFToken](src/xrpl/NFToken/README.md) - NFT発行・管理機能
 - [Payment](src/xrpl/Payment/README.md) - XRP/IOU送金機能
