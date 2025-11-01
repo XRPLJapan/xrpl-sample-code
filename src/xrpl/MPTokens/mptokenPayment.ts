@@ -57,40 +57,33 @@ export async function mptokenPayment(): Promise<boolean> {
 
     console.log('\n✅ MPToken送金が完了しました');
 
-    // 残高確認
+    // 残高確認（ledger_entryで直接MPTokenオブジェクトを取得）
     try {
-      const receiverBalance = await client.request({
-        command: 'account_objects',
-        account: user.address,
+      const mptokenEntry = await client.request({
+        command: 'ledger_entry',
+        mptoken: {
+          mpt_issuance_id: mptIssuanceID,
+          account: user.address,
+        },
         ledger_index: 'validated',
       });
+
       console.log('\n💰 受信者のMPToken残高:');
-      if ('account_objects' in receiverBalance.result) {
-        const mptBalances = receiverBalance.result.account_objects.filter(
-          (obj) => {
-            const ledgerObj = obj as {
-              LedgerEntryType: string;
-              MPTokenIssuanceID?: string;
-            };
-            return (
-              ledgerObj.LedgerEntryType === 'MPToken' &&
-              ledgerObj.MPTokenIssuanceID === mptIssuanceID
-            );
-          },
-        );
-        if (mptBalances.length > 0) {
-          const mptBalance = mptBalances[0] as unknown as {
-            MPTokenIssuanceID: string;
-            MPTAmount: string;
-          };
-          console.log(`  - MPTokenIssuanceID: ${mptBalance.MPTokenIssuanceID}`);
-          console.log(`    残高: ${mptBalance.MPTAmount}`);
-        } else {
-          console.log('  - 該当するMPToken残高がありません');
-        }
+      if ('node' in mptokenEntry.result) {
+        const mptBalance = mptokenEntry.result.node as unknown as {
+          MPTokenIssuanceID: string;
+          MPTAmount: string;
+        };
+        console.log(`  - MPTokenIssuanceID: ${mptBalance.MPTokenIssuanceID}`);
+        console.log(`    残高: ${mptBalance.MPTAmount}`);
+      } else {
+        console.log('  - MPTokenが見つかりませんでした');
       }
     } catch (balanceError) {
-      console.log('\n⚠️  残高取得に失敗しました:', balanceError);
+      console.log(
+        '\n⚠️  残高取得に失敗しました（MPTokenがまだ作成されていない可能性があります）:',
+        balanceError,
+      );
     }
 
     // エクスプローラーで確認できるURLを表示
